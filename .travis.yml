@@ -1,0 +1,20 @@
+sudo: required
+language: shell
+services:
+ - docker
+before_install:
+ - docker pull debian:stretch
+ - docker run debian:stretch 'sudo apt-get install python-apt python-cliapp python-pycurl python-requests python vmdebootstrap xorriso isolinux debian-archive-keyring python-distro-info'
+install:
+- true
+script:
+- docker run debian:stretch "cd $PWD && ./do.sh i386"
+deploy:
+  provider: releases
+  api_key:
+    secure: kROmDM2P7N2MkT+QrllEe+/AxjmraHAC2NoC2FX1nd3wbfoS6PIcgQY+/8dl4qnNlcXe8jrWlVzSZ6esulVffMtsUwz22+aU66T12bm6e2slVuwhzA5HcJPJuqQc9Z3btgg+99PSSp2xkGOz+y8JcVrpsMQ2Z5yGVDPk4KxIQHSplSd3nkK7/qFg4PYLdr9yrSmz3ybupActXbFPG3BucVdJj+J4A9YDRwfZTzM8ZEh8SItVeh3JSHEOqTWZbiF9lSN9GszoOPVFtbfTbgtvW9edvtPfIl50FOXYhG8fbbXK5b4A4Iw/X5P005ulvcT6SxcBLQNnsEUBZwFRaxKsAon9oCe86vTvudxkJPHj8B1ed+4jIvWkTcHMVcEffKI/sqEQp0SHgDv72rT3JV1QY6tz9BwXOJWtZeZpjnJ/hqnuK1SvHF0C8SoHAZkdZsDwwIegS9H32unzMMd21Dtt4k9t8eRnTgPLm5nAKLjRX7iefKvsbsUQclynSKOXegY9MqIt41didyhPwwk4cQIKIIymMWyIQkT4FLNPjEkK0fojXbUnV9Ra9MICPKDApJn+qMQAjdLHjRGM3vEXeaMDHqcIxeYWMern3XI1srUfqWhVZLopsUHOO33vNY4Hwl1+cZ34ts5vmZ4EUCqyoPc1AIONs0Hy+npcRemiM95mX10=
+  file: "*.iso"
+  skip_cleanup: true
+  file_glob: true
+  on:
+    repo: jepler/stretch-live-build
